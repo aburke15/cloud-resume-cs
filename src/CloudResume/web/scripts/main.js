@@ -5,25 +5,25 @@ window.onload = async () => {
 
 const pageVisitCountName = "pageVisitCount";
 
-const getPageVisitCountFromLambda = async () => {
+async function getPageVisitCountFromLambda() {
   try {
-    const url = "https://api.aburke.tech/pagecount";
-    const response = await fetch(url);
+    const response = await fetch("https://api.aburke.tech/pagecount");
 
     const json = await response.json();
     const data = JSON.parse(json);
 
     return data.body.count;
+    w;
   } catch (error) {
     console.error("Error getPageVisitCountFromLambda:", error);
     console.log("Falling back to local storage");
 
     return getPageVisitCount();
   }
-};
+}
 
 // Local storage access only
-const getPageVisitCount = () => {
+function getPageVisitCount() {
   setPageVisitCountIfNotExists();
   updatePageVisitCount();
 
@@ -37,24 +37,24 @@ const getPageVisitCount = () => {
       }
     }, 200);
   });
-};
+}
 
-const setPageVisitCountIfNotExists = () => {
+function setPageVisitCountIfNotExists() {
   if (localStorage.getItem(pageVisitCountName) === null) {
     localStorage.setItem(pageVisitCountName, 0);
   }
-};
+}
 
-const updatePageVisitCount = () => {
+function updatePageVisitCount() {
   try {
     const pageVisitCount = parseInt(localStorage.getItem(pageVisitCountName)) + 1;
     localStorage.setItem(pageVisitCountName, pageVisitCount);
   } catch (error) {
     console.error("Error updatePageVisitCount:", error);
   }
-};
+}
 
-const exportToWordDoc = (contentToBeExported, filename) => {
+function exportToWordDoc(contentToBeExported, filename) {
   const webAddress = window.location.origin;
   console.log("webAddress:", webAddress);
   const preHtml =
@@ -91,4 +91,4 @@ const exportToWordDoc = (contentToBeExported, filename) => {
   }
 
   document.body.removeChild(downloadLink);
-};
+}
